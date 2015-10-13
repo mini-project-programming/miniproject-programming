@@ -2,14 +2,21 @@ __author__ = 'Merlijn'
 
 import sqlite3
 
-#verbinding maken met de database
-conn = sqlite3.connect("")
-#shortcut voor de database
-c = conn.cursor()
+database_file = "../reis-database.db"
 
 ov_nummer = 0
 gebruiker_ID = 0
 
+ov_nummer = input("Wat is uw OV nummer?")
 
-c.execute("SELECT gebruikerID FROM gebruikers WHERE ovnummer=ov_nummer")
-c.execute("SELECT * FROM reisgegevens WHERE gebruikerID=gebruiker_ID")
+with sqlite3.connect(database_file) as conn:
+    c = conn.cursor()
+
+    c.execute("SELECT gebruikerID FROM gebruikers WHERE ovnummer=%d" % int(ov_nummer))
+
+    for row in c.fetchone():
+        gebruiker_ID = row
+        print(row)
+
+    c.execute("SELECT * FROM reisgegevens WHERE gebruikerID=%d" % gebruiker_ID)
+    print(c.fetchall())
