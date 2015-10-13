@@ -2,12 +2,6 @@ __author__ = 'Merlijn'
 
 import sqlite3,qrcode
 import tkinter as tk
-#verbinding maken met de database
-conn = sqlite3.connect("../reis-database.db")
-
-#shortcut voor de database
-c = conn.cursor()
-
 
 def windows():
     window = tk.Tk()
