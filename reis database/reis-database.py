@@ -51,16 +51,25 @@ window.configure(background='yellow')
 
 T = tk.Text(window, height=2, width = 30, bg = 'yellow')
 T.insert('end', 'Dit is tekst :D')
+B = tk.Button(window, text ="Continue", bd = 5, width = 50, height = 4, bg = 'yellow', activebackground = 'yellow', command = windows, state = 'disabled')
 
 def callback(sv):
     print(E2.get())
+    if E2.get():
+        B.config(state = 'normal')
+        if E2.get() == ovnummer_lijst:
+            print('sdaf')
+    else:
+        B.config(state = 'disabled')
+
+
 sv = tk.StringVar()
 sv.trace("w", lambda name, index, mode, sv=sv: callback(sv))
 
-E1 = tk.Label(window, text="UserID", bg = 'yellow')
+
+E1 = tk.Label(window, text="OV-nummer", bg = 'yellow')
 E2 = tk.Entry(window, textvariable=sv)
 
-B = tk.Button(window, text ="Continue", bd = 5, width = 50, height = 4, bg = 'yellow', activebackground = 'yellow', command = windows, state = 'disabled')
 
 
 T.pack()
@@ -68,8 +77,8 @@ E1.pack()
 E2.pack()
 B.pack()
 T.place(x = 190)
-E1.place(x = 150, y = 200)
-E2.place(x = 190, y = 200)
+E1.place(x = 130, y = 200)
+E2.place(x = 210, y = 200)
 B.place(x = 130, y = 300)
 window.mainloop()
 
