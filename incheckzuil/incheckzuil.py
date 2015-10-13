@@ -24,4 +24,7 @@ def haal_reis_gegevens(gebruikerid):
 ov_nummer = 0
 
 ov_nummer = input("Wat is uw OV nummer?")
+
 haal_reis_gegevens(haal_gebruiker_id(ov_nummer))
+
+
