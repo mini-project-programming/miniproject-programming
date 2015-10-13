@@ -3,6 +3,23 @@ __author__ = 'Merlijn'
 import sqlite3,qrcode
 import tkinter as tk
 
+database_file = "../reis-database.db"
+
+
+def genereer_stationlijst():
+    with sqlite3.connect(database_file) as conn:
+        stationlijst = []
+        c = conn.cursor()
+
+        c.execute("SELECT naam FROM stations")
+
+        for row in c.fetchall():
+            for row2 in row:
+                stationlijst.append(row2)
+
+        return stationlijst
+
+
 def windows():
     window = tk.Tk()
     window.geometry('600x400')
