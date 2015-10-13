@@ -11,7 +11,7 @@ def genereer_stationlijst():
         stationlijst = []
         c = conn.cursor()
 
-        c.execute("SELECT naam FROM stations")
+        c.execute("SELECT naam FROM stations ORDER BY naam ASC")
 
         for row in c.fetchall():
             for row2 in row:
