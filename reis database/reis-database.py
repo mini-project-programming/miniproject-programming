@@ -20,13 +20,29 @@ def genereer_stationlijst():
         return stationlijst
 
 
+def genereer_ovnummerlijst():
+    with sqlite3.connect(database_file) as conn:
+        ovnummerlijst = []
+        c = conn.cursor()
+
+        c.execute("SELECT ovnummer FROM gebruikers")
+
+        for row in c.fetchall():
+            for row2 in row:
+                ovnummerlijst.append(row2)
+
+        return ovnummerlijst
+
+
 def windows():
     window = tk.Tk()
     window.geometry('600x400')
     print(E2.get())
 
 
+# genereer eenmalig de gegevens die in de database staan zodat er makkelijk meer gewerkt kan worden
 station_lijst = genereer_stationlijst()
+ovnummer_lijst = genereer_ovnummerlijst()
 
 window = tk.Tk()
 window.geometry('600x400')
