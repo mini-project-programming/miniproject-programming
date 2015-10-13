@@ -25,6 +25,9 @@ def windows():
     window.geometry('600x400')
     print(E2.get())
 
+
+station_lijst = genereer_stationlijst()
+
 window = tk.Tk()
 window.geometry('600x400')
 window.title('Ns overzicht')
