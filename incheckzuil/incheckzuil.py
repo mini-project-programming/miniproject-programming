@@ -5,7 +5,7 @@ from database import *
 from tkinter import messagebox
 
 window = tkinter.Tk()
-window.geometry("900x600")
+window.geometry("850x500")
 window.title("Incheckzuil")
 
 

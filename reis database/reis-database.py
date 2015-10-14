@@ -7,6 +7,7 @@ from database import *
 
 TITLE_FONT = ("Helvetica", 18, "bold")
 
+
 def genereer_stationlijst():
     stationlijst = []
 
@@ -155,6 +156,7 @@ class eindstationFrame(tk.Frame):
         B.place(x = 130, y = 300)
         B.pack()
 
+
 class voltooidFrame(tk.Frame):
 
     def __init__(self, parent, controller):
@@ -178,10 +180,7 @@ class voltooidFrame(tk.Frame):
         # w.place(x=170, y=150)
 
 
-
-
 app = SampleApp()
 app.geometry('600x400')
 app.title('Ns overzicht')
 app.mainloop()
- 
