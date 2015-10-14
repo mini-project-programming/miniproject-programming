@@ -39,14 +39,23 @@ def window2():
     window.geometry('400x200')
     window.title("Beginstation")
     window.configure(background='yellow')
-
     option1 = window
+
+    def option_changed(a):
+        if a != 'Beginstation':
+            B.config(state='normal')
+        else:
+            B.config(state='disabled')
+
+    variable1 = StringVar()
+    variable1.set('default')
+
     variable = StringVar(option1)
     variable.set('Beginstation')
-    om1 = OptionMenu(option1, variable, *station_lijst)
+    om1 = OptionMenu(option1, variable, *station_lijst, command=option_changed)
 
-    B = tk.Button(window, text ="Volgende", bd = 5, width = 50, height = 4, bg = 'yellow', activebackground = 'yellow', command = window3, state = 'normal')
-    w = Label(window, text="Uw opdracht is voltooid!", font=('Arial', 20), bg= 'yellow')
+    B = tk.Button(window, text ="Volgende", bd = 5, width = 50, height = 4, bg = 'yellow', activebackground = 'yellow', command = window3, state = 'disabled')
+    w = Label(window, text="Kies uw beginstation", font=('Arial', 20), bg= 'yellow')
 
     w.pack()
     om1.place(x = 100, y = 100)
@@ -61,17 +70,26 @@ def window3():
     window.title("Beginstation")
     window.configure(background='yellow')
 
-    option2 = window
-    variable = StringVar(option2)
-    variable.set("Eindstation")
-    om2 = OptionMenu(option2, variable, *station_lijst)
+    option1 = window
 
-    B = tk.Button(window, text ="Volgende", bd = 5, width = 50, height = 4, bg = 'yellow', activebackground = 'yellow', command = window4, state = 'normal')
-    w = Label(window, text="Uw opdracht is voltooid!", font=('Arial', 20), bg= 'yellow')
+    def option_changed(a):
+        if a != 'Beginstation':
+            B.config(state='normal')
+        else:
+            B.config(state='disabled')
+
+    variable1 = StringVar()
+    variable1.set('default')
+
+    variable = StringVar(option1)
+    variable.set('Eindstation')
+    om1 = OptionMenu(option1, variable, *station_lijst, command=option_changed)
+    B = tk.Button(window, text ="Volgende", bd = 5, width = 50, height = 4, bg = 'yellow', activebackground = 'yellow', command = window4, state = 'disabled')
+    w = Label(window, text="Kies uw eindstation", font=('Arial', 20), bg= 'yellow')
 
     w.pack()
-    om2.place(x = 100, y = 100)
-    om2.pack()
+    om1.place(x = 100, y = 100)
+    om1.pack()
     B.place(x = 130, y = 300)
     B.pack()
 
