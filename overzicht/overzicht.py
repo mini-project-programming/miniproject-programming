@@ -6,7 +6,7 @@ from database import *
 #aantal reizen per ov chipkaart
 query = database.query("SELECT COUNT(*),ovnummer FROM reisgegevens JOIN gebruikers ON(gebruikers.gebruikerID = reisgegevens.gebruikerID) GROUP BY reisgegevens.gebruikerID")
 
-aantal_reizen_per_ov = query.fetchall()
+aantal_reizen_per_ov = database.fetchAll(query)
 
 print("Aantal reizen per OVnummer\n")
 print('{:<14}  {:<12}'.format("Aantal reizen", "Ovnummer"))
@@ -17,7 +17,7 @@ for row in aantal_reizen_per_ov:
 #populairste bestemming
 query = database.query("SELECT stations.naam, count(eindstationID) FROM reisgegevens JOIN stations ON(reisgegevens.eindstationID = stationID) GROUP BY eindstationID ORDER BY count(eindstationID) desc LIMIT 5")
 
-populairste_bestemmingen = query.fetchall()
+populairste_bestemmingen = database.fetchAll(query)
 
 print("\nPopulairste 5 bestemmingen\n")
 print('{:<20}  {:<12}'.format("Bestemming", "Hoevaak als eindbestemming"))
@@ -30,7 +30,7 @@ for row in populairste_bestemmingen:
 #populairste vertrekstation
 query = database.query("SELECT stations.naam, count(beginstationID) FROM reisgegevens JOIN stations ON(reisgegevens.beginstationID = stationID) GROUP BY beginstationID ORDER BY count(beginstationID) desc LIMIT 5")
 
-populairste_vertrekstations = query.fetchall()
+populairste_vertrekstations = database.fetchAll(query)
 
 print("\nPopulairste 5 vertrekstations\n")
 print('{:<20}  {:<12}'.format("Station", "Hoevaak als vertrekstation"))
