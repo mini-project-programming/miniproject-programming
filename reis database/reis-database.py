@@ -2,6 +2,7 @@ __author__ = 'Merlijn'
 
 import sqlite3,qrcode
 import tkinter as tk
+from tkinter import *
 
 database_file = "../reis-database.db"
 
@@ -53,33 +54,46 @@ T = tk.Text(window, height=2, width = 30, bg = 'yellow')
 T.insert('end', 'Dit is tekst :D')
 B = tk.Button(window, text ="Continue", bd = 5, width = 50, height = 4, bg = 'yellow', activebackground = 'yellow', command = windows, state = 'disabled')
 
-def callback(sv):
-    print(E2.get())
-    if E2.get():
-        B.config(state = 'normal')
-        if E2.get() == ovnummer_lijst:
-            print('sdaf')
-    else:
-        B.config(state = 'disabled')
-
-
 sv = tk.StringVar()
 sv.trace("w", lambda name, index, mode, sv=sv: callback(sv))
-
 
 E1 = tk.Label(window, text="OV-nummer", bg = 'yellow')
 E2 = tk.Entry(window, textvariable=sv)
 
+option1 = window
+variable = StringVar(option1)
+variable.set('Beginstation')
+om1 = OptionMenu(option1, variable, *station_lijst)
 
+option2 = window
+variable = StringVar(option2)
+variable.set("Eindstation")
+om2 = OptionMenu(option2, variable, *station_lijst)
 
+def callback(sv):
+    try:
+        if int(E2.get()) in ovnummer_lijst:
+            print('Correct')
+            if E2.get():
+                B.config(state = 'normal')
+        else:
+            B.config(state = 'disabled')
+    except:
+        print('Retry')
+
+print(station_lijst)
 T.pack()
 E1.pack()
 E2.pack()
 B.pack()
+om1.pack()
+om2.pack()
 T.place(x = 190)
 E1.place(x = 130, y = 200)
 E2.place(x = 210, y = 200)
 B.place(x = 130, y = 300)
+om1.place(x = 100, y = 100)
+om2.place(x = 100, y = 150)
 window.mainloop()
 
 
