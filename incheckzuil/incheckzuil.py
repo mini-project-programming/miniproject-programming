@@ -1,4 +1,4 @@
-__author__ = 'Merlijn'
+__author__ = 'Merlijn, Ismael'
 
 import tkinter
 from database import *
@@ -7,17 +7,6 @@ from tkinter import messagebox
 window = tkinter.Tk()
 window.geometry("900x600")
 window.title("Incheckzuil")
-
-
-def genereer_ovnummerlijst():
-    ovnummerlijst = []
-
-    query = database.query("SELECT ovnummer FROM gebruikers")
-    for row in database.fetchAll(query):
-        for row2 in row:
-            ovnummerlijst.append(row2)
-
-    return ovnummerlijst
 
 
 def haal_gebruiker_id(ovnummer):
@@ -64,9 +53,6 @@ def start_printen(nummer):
         uitvoer_regel = "Reis ID: {0:3s} Beginstation: {1:25s} Eindstation: {2:25s} \n".format(str(reis_id), str(begin_station), str(eind_station))
         ent_uitvoer_vak.insert("end", uitvoer_regel)
 
-
-
-ovnummer_lijst = genereer_ovnummerlijst()
 
 lbl_ov_nummer = tkinter.Label(window, text="Voer uw ov nummer in:")
 ent_ov_nummer = tkinter.Entry(window)
