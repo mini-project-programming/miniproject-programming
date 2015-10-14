@@ -6,7 +6,7 @@ import tkinter
 database_file = "../reis-database.db"
 
 window = tkinter.Tk()
-window.geometry("1000x600")
+window.geometry("900x600")
 window.title("Incheckzuil")
 
 
@@ -40,29 +40,28 @@ def haal_station_gegevens():
         return stationdict
 
 
-def print_reisgegevens():
-    pass
+def start_printen(nummer):
+    reisgegevens = haal_reis_gegevens(haal_gebruiker_id(nummer))
 
+    for row in reisgegevens:
+        reis_id = row[0]
+        begin_station = stations[row[2]]
+        eind_station = stations[row[3]]
 
-stations = haal_station_gegevens()
-ov_nummer = input("Wat is uw OV nummer?")
-reisgegevens = haal_reis_gegevens(haal_gebruiker_id(ov_nummer))
+        uitvoer_regel = "Reis ID: {0:3s} Beginstation: {1:25s} Eindstation: {2:25s} \n".format(str(reis_id), str(begin_station), str(eind_station))
+        ent_uitvoer_vak.insert("end", uitvoer_regel)
 
 lbl_ov_nummer = tkinter.Label(window, text="Voer uw ov nummer in:")
 ent_ov_nummer = tkinter.Entry(window)
-btn_start = tkinter.Button(window, command="print_reisgegevens")
+btn_start = tkinter.Button(window, text="Haal reisgegevens op", command=lambda: start_printen(ent_ov_nummer.get()))
 ent_uitvoer_vak = tkinter.Text(window, width=100)
 
-lbl_ov_nummer.pack()
-ent_ov_nummer.pack()
-ent_uitvoer_vak.pack()
+lbl_ov_nummer.grid(row=0, column=0)
+ent_ov_nummer.grid(row=0, column=1)
+btn_start.grid(row=0, column=3)
+ent_uitvoer_vak.grid(row=1, columnspan=16)
 
-for row in reisgegevens:
-    reis_id = row[0]
-    begin_station = stations[row[2]]
-    eind_station = stations[row[3]]
-
-    uitvoer_regel = "Reis ID: {0:3s} Beginstation: {1:25s} Eindstation: {2:25s} \n".format(str(reis_id), str(begin_station), str(eind_station))
-    ent_uitvoer_vak.insert("end", uitvoer_regel)
+stations = haal_station_gegevens()
+ov_nummer = ent_ov_nummer.get()
 
 window.mainloop()
