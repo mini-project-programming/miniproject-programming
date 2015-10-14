@@ -38,6 +38,11 @@ def genereer_ovnummerlijst():
 def windows():
     window = tk.Tk()
     window.geometry('600x400')
+    window.title('Voltooid')
+    window.configure(background='yellow')
+    w = Label(window, text="Uw opdracht is voltooid!", font=('Arial', 20), bg= 'yellow')
+    w.pack()
+    w.place(x=170, y=150)
     print(E2.get())
 
 
@@ -50,8 +55,7 @@ window.geometry('600x400')
 window.title('Ns overzicht')
 window.configure(background='yellow')
 
-T = tk.Text(window, height=2, width = 30, bg = 'yellow')
-T.insert('end', 'Dit is tekst :D')
+T = Label(window, text="Welkom bij NS reis-database", font=('Arial', 20), bg= 'yellow')
 B = tk.Button(window, text ="Continue", bd = 5, width = 50, height = 4, bg = 'yellow', activebackground = 'yellow', command = windows, state = 'disabled')
 
 sv = tk.StringVar()
@@ -81,14 +85,16 @@ def callback(sv):
     except:
         print('Retry')
 
-print(station_lijst)
+
+
+
 T.pack()
 E1.pack()
 E2.pack()
 B.pack()
 om1.pack()
 om2.pack()
-T.place(x = 190)
+T.place(x = 140)
 E1.place(x = 130, y = 200)
 E2.place(x = 210, y = 200)
 B.place(x = 130, y = 300)
