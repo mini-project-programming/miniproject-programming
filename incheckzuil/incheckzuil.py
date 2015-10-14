@@ -2,6 +2,7 @@ __author__ = 'Merlijn'
 
 import tkinter
 from database import *
+from tkinter import messagebox
 
 window = tkinter.Tk()
 window.geometry("900x600")
@@ -40,6 +41,18 @@ def haal_station_gegevens():
 
 
 def start_printen(nummer):
+
+    try:
+        int(nummer)
+    except ValueError:
+        messagebox.showinfo("Error","Voer een ovnummer in")
+        return
+    if(len(ent_uitvoer_vak.get("1.0","end")) > 0):
+        ent_uitvoer_vak.delete("1.0","end")
+    if(str(haal_gebruiker_id(nummer)) == "None"):
+        messagebox.showinfo("Error","De opgegeven ovnummer is niet gevonden in de database")
+        return
+
     stations = haal_station_gegevens()
     reisgegevens = haal_reis_gegevens(haal_gebruiker_id(nummer))
 
@@ -50,6 +63,8 @@ def start_printen(nummer):
 
         uitvoer_regel = "Reis ID: {0:3s} Beginstation: {1:25s} Eindstation: {2:25s} \n".format(str(reis_id), str(begin_station), str(eind_station))
         ent_uitvoer_vak.insert("end", uitvoer_regel)
+
+
 
 ovnummer_lijst = genereer_ovnummerlijst()
 
