@@ -60,13 +60,10 @@ sv.trace("w", lambda name, index, mode, sv=sv: callback(sv))
 E1 = tk.Label(window, text="OV-nummer", bg = 'yellow')
 E2 = tk.Entry(window, textvariable=sv)
 
-x = 0
 option1 = window
 variable = StringVar(option1)
 variable.set('Beginstation')
 om1 = OptionMenu(option1, variable, *station_lijst)
-
-
 
 option2 = window
 variable = StringVar(option2)
@@ -76,7 +73,7 @@ om2 = OptionMenu(option2, variable, *station_lijst)
 def callback(sv):
     try:
         if int(E2.get()) in ovnummer_lijst:
-            print(ovnummer_lijst)
+            print('Correct')
             if E2.get():
                 B.config(state = 'normal')
         else:
