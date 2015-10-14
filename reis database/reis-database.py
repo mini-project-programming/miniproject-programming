@@ -6,6 +6,9 @@ from tkinter import *
 from database import *
 
 TITLE_FONT = ("Helvetica", 18, "bold")
+beginstation = ""
+eindstation = ""
+ovnummer = 0
 
 
 def genereer_stationlijst():
@@ -33,7 +36,7 @@ def genereer_ovnummerlijst():
     return ovnummerlijst
 
 
-class SampleApp(tk.Tk):
+class reisDatabase(tk.Tk):
 
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
@@ -47,7 +50,7 @@ class SampleApp(tk.Tk):
         container.grid_columnconfigure(0, weight=1)
 
         self.frames = {}
-        for F in (StartPage, beginstationFrame, eindstationFrame, voltooidFrame):
+        for F in (loginFrame, beginstationFrame, eindstationFrame, voltooidFrame):
             frame = F(container, self)
             self.frames[F] = frame
             # put all of the pages in the same location;
@@ -55,7 +58,7 @@ class SampleApp(tk.Tk):
             # will be the one that is visible.
             frame.grid(row=0, column=0, sticky="nsew")
 
-        self.show_frame(StartPage)
+        self.show_frame(loginFrame)
 
     def show_frame(self, c):
         '''Show a frame for the given class'''
@@ -63,7 +66,7 @@ class SampleApp(tk.Tk):
         frame.tkraise()
 
 
-class StartPage(tk.Frame):
+class loginFrame(tk.Frame):
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -80,11 +83,12 @@ class StartPage(tk.Frame):
         E2 = tk.Entry(self, textvariable=sv)
 
         def callback(sv):
+            global ovnummer
             try:
                 if int(E2.get()) in ovnummer_lijst:
                     print('Correct')
-                    if E2.get():
-                        B.config(state = 'normal')
+                    B.config(state = 'normal')
+                    ovnummer = int(E2.get())
                 else:
                     B.config(state = 'disabled')
             except:
@@ -108,16 +112,14 @@ class beginstationFrame(tk.Frame):
         station_lijst = genereer_stationlijst()
 
         def option_changed(a):
-            if a != 'Beginstation':
-                B.config(state='normal')
-            else:
-                B.config(state='disabled')
-
-        variable1 = StringVar()
-        variable1.set('default')
+            global beginstation
+            print(variable)
+            beginstation = variable.get()
+            B.config(state='normal')
 
         variable = StringVar(self)
         variable.set('Beginstation')
+
         om1 = OptionMenu(self, variable, *station_lijst, command=option_changed)
 
         B = tk.Button(self, text ="Volgende", bd = 5, width = 50, height = 4, command = lambda: controller.show_frame(eindstationFrame), state = 'disabled')
@@ -135,19 +137,31 @@ class eindstationFrame(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         def option_changed(a):
-            if a != 'Beginstation':
-                B.config(state='normal')
+            global eindstation,beginstation
+            eindstation = variable.get()
+            print(a,beginstation)
+            if a != beginstation:
+                B.config(state="normal")
             else:
-                B.config(state='disabled')
+                B.config(state="disabled")
 
-        variable1 = StringVar()
-        variable1.set('default')
-
+        def save_and_show_voltooid():
+            save_reisgegevens(beginstation,eindstation)
+            controller.show_frame(voltooidFrame)
+        def save_reisgegevens(beginstation,eindstation):
+            global ovnummer
+            beginstationID = database.fetchOne(database.query("SELECT stationID FROM stations WHERE naam=\'%s\'" % beginstation))
+            eindstationID = database.fetchOne(database.query("SELECT stationID FROM stations WHERE naam=\'%s\'" % eindstation))
+            gebruikerID = database.fetchOne(database.query("SELECT gebruikerID FROM gebruikers WHERE ovnummer=%d" % ovnummer))
+            print(beginstation,eindstation,beginstationID,eindstationID,gebruikerID)
+            database.query("INSERT INTO reisgegevens(gebruikerID,beginstationID,eindstationID) VALUES ({0},{1},{2})".format(gebruikerID[0], beginstationID[0], eindstationID[0]))
+            database.save()
+            database.close()
         variable = StringVar(self)
         variable.set('Eindstation')
         station_lijst = genereer_stationlijst()
         om1 = OptionMenu(self, variable, *station_lijst, command=option_changed)
-        B = tk.Button(self, text ="Volgende", bd = 5, width = 50, height = 4, command = lambda: controller.show_frame(voltooidFrame), state = 'disabled')
+        B = tk.Button(self, text ="Volgende", bd = 5, width = 50, height = 4, command = save_and_show_voltooid, state = 'disabled')
         w = Label(self, text="Kies uw eindstation", font=('Arial', 20))
 
         w.pack()
@@ -180,7 +194,7 @@ class voltooidFrame(tk.Frame):
         # w.place(x=170, y=150)
 
 
-app = SampleApp()
+app = reisDatabase()
 app.geometry('600x400')
 app.title('Ns overzicht')
 app.mainloop()
