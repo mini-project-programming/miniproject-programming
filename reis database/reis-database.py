@@ -94,12 +94,14 @@ def window3():
     B.pack()
 
 def window4():
+
     window = tk.Tk()
     window.geometry('600x400')
     window.title('Voltooid')
     window.configure(background='yellow')
-    w = Label(window, text="Uw opdracht is voltooid!", font=('Arial', 20), bg= 'yellow')
 
+
+    w = Label(window, text="Uw opdracht is voltooid!", font=('Arial', 20), bg= 'yellow')
     w.pack()
     w.place(x=170, y=150)
 
