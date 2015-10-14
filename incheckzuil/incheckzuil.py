@@ -10,16 +10,19 @@ window.title("Incheckzuil")
 
 
 def haal_gebruiker_id(ovnummer):
+    """Returned een gebruikerID op basis van de ingevoerde OV nummer."""
     query = database.query("SELECT gebruikerID FROM gebruikers WHERE ovnummer=%d" % int(ovnummer))
     return database.fetchOne(query)
 
 
 def haal_reis_gegevens(gebruikerid):
+    """Returned een list van alle reisgegevens op basis van de gebruikerID"""
     query = database.query("SELECT * FROM reisgegevens WHERE gebruikerID=%d" % gebruikerid)
     return database.fetchAll(query)
 
 
 def haal_station_gegevens():
+    """Alle stationsgegevens worden opgehaald en in een dictionary gezet om stationID en naam te koppelen."""
     stationdict = {}
 
     query = database.query("SELECT stationID, naam FROM stations ORDER BY stationID ASC")
@@ -30,7 +33,9 @@ def haal_station_gegevens():
 
 
 def start_printen(nummer):
-
+    """Check of de input correct is.
+    Print daarnaalle verzamelde gegevens in het tekstvak op een leesbare manier.
+    """
     try:
         int(nummer)
     except ValueError:
