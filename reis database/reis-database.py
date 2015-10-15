@@ -43,25 +43,25 @@ def window2():
 
     def option_changed(a):
         if a != 'Beginstation':
-            button.config(state='normal')
+            B.config(state='normal')
         else:
-            button.config(state='disabled')
+            B.config(state='disabled')
 
     variable1 = StringVar()
     variable1.set('default')
 
     variable = StringVar(option1)
     variable.set('Beginstation')
-    om = OptionMenu(option1, variable, *station_lijst, command=option_changed)
+    om1 = OptionMenu(option1, variable, *station_lijst, command=option_changed)
 
-    button = tk.Button(window, text ="Volgende", bd = 5, width = 50, height = 4, bg = 'yellow', activebackground = 'yellow', command = window3, state = 'disabled')
+    B = tk.Button(window, text ="Volgende", bd = 5, width = 50, height = 4, bg = 'yellow', activebackground = 'yellow', command = window3, state = 'disabled')
     w = Label(window, text="Kies uw beginstation", font=('Arial', 20), bg= 'yellow')
 
     w.pack()
-    om.place(x = 100, y = 100)
-    om.pack()
-    button.place(x = 130, y = 300)
-    button.pack()
+    om1.place(x = 100, y = 100)
+    om1.pack()
+    B.place(x = 130, y = 300)
+    B.pack()
 
 
 def window3():
@@ -74,24 +74,24 @@ def window3():
 
     def option_changed(a):
         if a != 'Beginstation':
-            button.config(state='normal')
+            B.config(state='normal')
         else:
-            button.config(state='disabled')
+            B.config(state='disabled')
 
     variable1 = StringVar()
     variable1.set('default')
 
     variable = StringVar(option1)
     variable.set('Eindstation')
-    om = OptionMenu(option1, variable, *station_lijst, command=option_changed)
-    button = tk.Button(window, text ="Volgende", bd = 5, width = 50, height = 4, bg = 'yellow', activebackground = 'yellow', command = window4, state = 'disabled')
+    om1 = OptionMenu(option1, variable, *station_lijst, command=option_changed)
+    B = tk.Button(window, text ="Volgende", bd = 5, width = 50, height = 4, bg = 'yellow', activebackground = 'yellow', command = window4, state = 'disabled')
     w = Label(window, text="Kies uw eindstation", font=('Arial', 20), bg= 'yellow')
 
     w.pack()
-    om.place(x = 100, y = 100)
-    om.pack()
-    button.place(x = 130, y = 300)
-    button.pack()
+    om1.place(x = 100, y = 100)
+    om1.pack()
+    B.place(x = 130, y = 300)
+    B.pack()
 
 def window4():
 
@@ -101,9 +101,9 @@ def window4():
     window.configure(background='yellow')
 
 
-    Text = Label(window, text="Uw opdracht is voltooid!", font=('Arial', 20), bg= 'yellow')
-    Text.pack()
-    Text.place(x=170, y=150)
+    w = Label(window, text="Uw opdracht is voltooid!", font=('Arial', 20), bg= 'yellow')
+    w.pack()
+    w.place(x=170, y=150)
 
 
 # genereer eenmalig de gegevens die in de database staan zodat er makkelijk meer gewerkt kan worden
@@ -115,34 +115,34 @@ window.geometry('600x400')
 window.title('Ns overzicht')
 window.configure(background='yellow')
 
-text = Label(window, text="Welkom bij NS reis-database", font=('Arial', 20), bg= 'yellow')
-button = tk.Button(window, text ="Volgende", bd = 5, width = 50, height = 4, bg = 'yellow', activebackground = 'yellow', command = window2, state = 'disabled')
+T = Label(window, text="Welkom bij NS reis-database", font=('Arial', 20), bg= 'yellow')
+B = tk.Button(window, text ="Volgende", bd = 5, width = 50, height = 4, bg = 'yellow', activebackground = 'yellow', command = window2, state = 'disabled')
 
-kt = tk.StringVar()
-kt.trace("w", lambda name, index, mode, kt=kt: knop_toegang(kt))
+sv = tk.StringVar()
+sv.trace("w", lambda name, index, mode, sv=sv: callback(sv))
 
-labelnaam = tk.Label(window, text="OV-nummer", bg = 'yellow')
-input1 = tk.Entry(window, textvariable=kt)
+E1 = tk.Label(window, text="OV-nummer", bg = 'yellow')
+E2 = tk.Entry(window, textvariable=sv)
 
-def knop_toegang(kt):
+def callback(sv):
     try:
-        if int(input1.get()) in ovnummer_lijst:
+        if int(E2.get()) in ovnummer_lijst:
             print('Correct')
-            if input1.get():
-                button.config(state = 'normal')
+            if E2.get():
+                B.config(state = 'normal')
         else:
-            button.config(state = 'disabled')
+            B.config(state = 'disabled')
     except:
         print('Retry')
 
-text.pack()
-labelnaam.pack()
-input1.pack()
-button.pack()
-text.place(x = 140)
-labelnaam.place(x = 130, y = 200)
-input1.place(x = 210, y = 200)
-button.place(x = 130, y = 300)
+T.pack()
+E1.pack()
+E2.pack()
+B.pack()
+T.place(x = 140)
+E1.place(x = 130, y = 200)
+E2.place(x = 210, y = 200)
+B.place(x = 130, y = 300)
 window.mainloop()
 
 

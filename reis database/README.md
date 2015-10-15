@@ -4,3 +4,4 @@ Om reisinformatie op te slaan
 #Requirements
 
 - qrcode package
+- Image package

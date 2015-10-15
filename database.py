@@ -33,4 +33,7 @@ class sqllite_database:
 
         return cursor.fetchone()
 
+    def save(self):
+        self.connection.commit()
+
 database = sqllite_database()

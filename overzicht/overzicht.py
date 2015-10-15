@@ -1,17 +1,26 @@
 __author__ = 'gebruiker'
 
+import datetime
 from database import *
 
+def save_to_file(bestand):
+    datum = datetime.date.today()
+
+    with open("Rapport " + str(datum) + ".txt", "w") as text_file:
+        for row in bestand:
+            text_file.write(row)
+
+bestand = []
 
 #aantal reizen per ov chipkaart
 query = database.query("SELECT COUNT(*),ovnummer FROM reisgegevens JOIN gebruikers ON(gebruikers.gebruikerID = reisgegevens.gebruikerID) GROUP BY reisgegevens.gebruikerID")
 
 aantal_reizen_per_ov = database.fetchAll(query)
 
-print("Aantal reizen per OVnummer\n")
-print('{:<14}  {:<12}'.format("Aantal reizen", "Ovnummer"))
+bestand.append("\nAantal reizen per OVnummer\n")
+bestand.append('{:<14}  {:<12}\n'.format("Aantal reizen", "Ovnummer"))
 for row in aantal_reizen_per_ov:
-    print('{:<14}  {:<12}'.format(row[0],row[1]))
+    bestand.append('{:<14}  {:<12}\n'.format(row[0],row[1]))
 
 
 #populairste bestemming
@@ -19,12 +28,12 @@ query = database.query("SELECT stations.naam, count(eindstationID) FROM reisgege
 
 populairste_bestemmingen = database.fetchAll(query)
 
-print("\nPopulairste 5 bestemmingen\n")
-print('{:<20}  {:<12}'.format("Bestemming", "Hoevaak als eindbestemming"))
+bestand.append("\nPopulairste 5 bestemmingen\n")
+bestand.append('{:<20}  {:<12}\n'.format("Bestemming", "Hoevaak als eindbestemming"))
 
 
 for row in populairste_bestemmingen:
-    print('{:<20}  {:<12}'.format(row[0],row[1]))
+    bestand.append('{:<20}  {:<12}\n'.format(row[0],row[1]))
 
 
 #populairste vertrekstation
@@ -32,8 +41,10 @@ query = database.query("SELECT stations.naam, count(beginstationID) FROM reisgeg
 
 populairste_vertrekstations = database.fetchAll(query)
 
-print("\nPopulairste 5 vertrekstations\n")
-print('{:<20}  {:<12}'.format("Station", "Hoevaak als vertrekstation"))
+bestand.append("\nPopulairste 5 vertrekstations\n")
+bestand.append('{:<20}  {:<12}\n'.format("Station", "Hoevaak als vertrekstation"))
 
 for row in populairste_vertrekstations:
-    print('{:<20}  {:<12}'.format(row[0],row[1]))
+    bestand.append('{:<20}  {:<12}\n'.format(row[0],row[1]))
+
+save_to_file(bestand)
