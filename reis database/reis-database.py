@@ -156,7 +156,6 @@ class eindstationFrame(tk.Frame):
             print(beginstation,eindstation,beginstationID,eindstationID,gebruikerID)
             database.query("INSERT INTO reisgegevens(gebruikerID,beginstationID,eindstationID) VALUES ({0},{1},{2})".format(gebruikerID[0], beginstationID[0], eindstationID[0]))
             database.save()
-            database.close()
         variable = StringVar(self)
         variable.set('Eindstation')
         station_lijst = genereer_stationlijst()
