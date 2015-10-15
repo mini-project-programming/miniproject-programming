@@ -185,6 +185,9 @@ class voltooidFrame(tk.Frame):
             img.show()
 
         B = tk.Button(self, text ="Bekijk qr code", bd = 5, width = 50, height = 4, command = generate_and_show_qr_code)
+        B2 = tk.Button(self, text='Terug naar beginscherm', bd = 5, width = 50, height = 4, command= lambda: controller.show_frame(loginFrame))
+        B2.place(x = 130, y = 350)
+        B2.pack()
         B.place(x = 130, y = 300)
         B.pack()
 
