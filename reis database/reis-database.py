@@ -79,7 +79,7 @@ class loginFrame(tk.Frame):
         sv = tk.StringVar()
         sv.trace("w", lambda name, index, mode, sv=sv: callback(sv))
 
-        E1 = tk.Label(self, text="OV-nummer")
+        E1 = tk.Label(self, text="OV-nummer (8 cijfers)")
         E2 = tk.Entry(self, textvariable=sv)
 
         def callback(sv):
@@ -99,8 +99,8 @@ class loginFrame(tk.Frame):
         E2.pack()
         B.pack()
         T.place(x = 140)
-        E1.place(x = 130, y = 200)
-        E2.place(x = 210, y = 200)
+        E1.place(x = 180, y = 200)
+        E2.place(x = 310, y = 200)
         B.place(x = 130, y = 300)
 
 
