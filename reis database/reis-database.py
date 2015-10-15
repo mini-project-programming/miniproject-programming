@@ -74,13 +74,19 @@ class loginFrame(tk.Frame):
         ovnummer_lijst = genereer_ovnummerlijst()
 
         T = Label(self, text="Welkom bij NS reis-database", font=('Arial', 20))
-        B = tk.Button(self, text ="Volgende", bd = 5, width = 50, height = 4, command = lambda: controller.show_frame(beginstationFrame), state = 'disabled')
 
         sv = tk.StringVar()
         sv.trace("w", lambda name, index, mode, sv=sv: callback(sv))
 
         E1 = tk.Label(self, text="OV-nummer (8 cijfers)")
         E2 = tk.Entry(self, textvariable=sv)
+
+        def button_pressed():
+            controller.show_frame(beginstationFrame)
+            E2.delete(0,END)
+
+
+        B = tk.Button(self, text ="Volgende", bd = 5, width = 50, height = 4, command = lambda: button_pressed(), state = 'disabled')
 
         def callback(sv):
             global ovnummer
@@ -92,7 +98,8 @@ class loginFrame(tk.Frame):
                 else:
                     B.config(state = 'disabled')
             except:
-                print('Retry')
+                print('Empty')
+
 
         T.pack()
         E1.pack()
@@ -122,7 +129,11 @@ class beginstationFrame(tk.Frame):
 
         om1 = OptionMenu(self, variable, *station_lijst, command=option_changed)
 
-        B = tk.Button(self, text ="Volgende", bd = 5, width = 50, height = 4, command = lambda: controller.show_frame(eindstationFrame), state = 'disabled')
+        def button_pressed():
+            controller.show_frame(eindstationFrame)
+            variable.set('Beginstation')
+
+        B = tk.Button(self, text ="Volgende", bd = 5, width = 50, height = 4, command = lambda: button_pressed(), state = 'disabled')
         w = Label(self, text="Kies uw beginstation", font=('Arial', 20))
 
         w.pack()
@@ -159,8 +170,14 @@ class eindstationFrame(tk.Frame):
         variable = StringVar(self)
         variable.set('Eindstation')
         station_lijst = genereer_stationlijst()
+
         om1 = OptionMenu(self, variable, *station_lijst, command=option_changed)
-        B = tk.Button(self, text ="Volgende", bd = 5, width = 50, height = 4, command = save_and_show_voltooid, state = 'disabled')
+
+        def button_pressed():
+            save_and_show_voltooid()
+            variable.set('Eindstation')
+
+        B = tk.Button(self, text ="Volgende", bd = 5, width = 50, height = 4, command = button_pressed, state = 'disabled')
         w = Label(self, text="Kies uw eindstation", font=('Arial', 20))
 
         w.pack()
