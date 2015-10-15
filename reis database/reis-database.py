@@ -181,7 +181,7 @@ class voltooidFrame(tk.Frame):
 
         #qr code genereren
         def generate_and_show_qr_code():
-            img = qrcode.make("123")
+            img = qrcode.make(database.fetchOne(database.query("SELECT reisID FROM reisgegevens ORDER BY reisID desc"))[0])
             img.show()
 
         B = tk.Button(self, text ="Bekijk qr code", bd = 5, width = 50, height = 4, command = generate_and_show_qr_code)
