@@ -186,13 +186,19 @@ class eindstationFrame(tk.Frame):
             sv.set('Eindstation')
             button.config(state='disabled')
 
+        def button_pressed1():
+            controller.show_frame(beginstationFrame)
+
         button = tk.Button(self, text ="Volgende", bd = 5, width = 50, height = 4, background=ns_blauw, fg=tekst_kleur, activebackground=ns_blauw, activeforeground=tekst_kleur, command = button_pressed, state = 'disabled')
+        button2 = tk.Button(self, text="Vorige", bd = 5, width = 50, height = 4, background=ns_blauw, fg=tekst_kleur, activebackground=ns_blauw, activeforeground=tekst_kleur, command= button_pressed1, state = 'normal')
         eind_station = Label(self, text="Kies uw eindstation", background=ns_geel, font=('Arial', 20))
 
         eind_station.pack()
         optionmenu.place(x = 100, y = 100)
         optionmenu.pack()
-        button.place(x = 130, y = 300)
+        button2.pack()
+        button.place(x=80, y=300)
+        button.place(x = 160, y = 300)
         button.pack()
 
 
