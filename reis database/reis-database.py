@@ -16,9 +16,9 @@ ns_geel = "#FFCC33"
 ns_blauw = "#010066"
 tekst_kleur = "white"
 
+
 def genereer_stationlijst():
     stationlijst = []
-
 
     cursor = database.query("SELECT naam FROM stations ORDER BY naam ASC")
 
@@ -27,6 +27,7 @@ def genereer_stationlijst():
             stationlijst.append(row2)
 
     return stationlijst
+
 
 def genereer_ovnummerlijst():
     ovnummerlijst = []
@@ -40,38 +41,28 @@ def genereer_ovnummerlijst():
     return ovnummerlijst
 
 
-class reisDatabase(tk.Tk):
-
+class Reisdatabase(tk.Tk):
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
-
-        # the container is where we'll stack a bunch of frames
-        # on top of each other, then the one we want visible
-        # will be raised above the others
         container = tk.Frame(self)
         container.pack(side="top", fill="both", expand=True)
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
 
         self.frames = {}
-        for F in (loginFrame, beginstationFrame, eindstationFrame, voltooidFrame):
+        for F in (Loginframe, Beginstationframe, Eindstationframe, Voltooidframe):
             frame = F(container, self)
             self.frames[F] = frame
-            # put all of the pages in the same location;
-            # the one on the top of the stacking order
-            # will be the one that is visible.
             frame.grid(row=0, column=0, sticky="nsew")
 
-        self.show_frame(loginFrame)
+        self.show_frame(Loginframe)
 
     def show_frame(self, c):
-        '''Show a frame for the given class'''
         frame = self.frames[c]
         frame.tkraise()
 
 
-class loginFrame(tk.Frame):
-
+class Loginframe(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent, background=ns_geel)
 
@@ -86,38 +77,37 @@ class loginFrame(tk.Frame):
         input_ovnummer = tk.Entry(self, textvariable=sv)
 
         def button_pressed():
-            controller.show_frame(beginstationFrame)
-            input_ovnummer.delete(0,END)
+            controller.show_frame(Beginstationframe)
+            input_ovnummer.delete(0, END)
             button.config(state='disabled')
 
-
-        button = tk.Button(self, text="Volgende", bd=5, width=50, height=4, background="#010066", fg=tekst_kleur, activebackground=ns_blauw, activeforeground=tekst_kleur, command=lambda: button_pressed(), state='disabled')
+        button = tk.Button(self, text="Volgende", bd=5, width=50, height=4, background="#010066", fg=tekst_kleur,
+                           activebackground=ns_blauw, activeforeground=tekst_kleur, command=lambda: button_pressed(),
+                           state='disabled')
 
         def callback(sv):
             global ovnummer
             try:
                 if int(input_ovnummer.get()) in ovnummer_lijst:
                     print('Correct')
-                    button.config(state = 'normal')
+                    button.config(state='normal')
                     ovnummer = int(input_ovnummer.get())
                 else:
-                    button.config(state = 'disabled')
+                    button.config(state='disabled')
             except:
                 print('Empty')
-
 
         welkom.pack()
         ovnummer.pack()
         input_ovnummer.pack()
         button.pack()
-        welkom.place(x = 140)
-        ovnummer.place(x = 180, y = 200)
-        input_ovnummer.place(x = 310, y = 200)
-        button.place(x = 130, y = 300)
+        welkom.place(x=140)
+        ovnummer.place(x=180, y=200)
+        input_ovnummer.place(x=310, y=200)
+        button.place(x=130, y=300)
 
 
-class beginstationFrame(tk.Frame):
-
+class Beginstationframe(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent, background=ns_geel)
 
@@ -136,44 +126,53 @@ class beginstationFrame(tk.Frame):
         optionmenu.config(bg=ns_blauw, fg=tekst_kleur, activebackground=ns_blauw, activeforeground=tekst_kleur)
 
         def button_pressed():
-            controller.show_frame(eindstationFrame)
+            controller.show_frame(Eindstationframe)
             sv.set('Beginstation')
             button.config(state='disabled')
 
-        button = tk.Button(self, text ="Volgende", bd = 5, width = 50, height = 4, background=ns_blauw, fg="white", activebackground=ns_blauw, activeforeground=tekst_kleur, command = lambda: button_pressed(), state = 'disabled')
+        button = tk.Button(self, text="Volgende", bd=5, width=50, height=4, background=ns_blauw, fg="white",
+                           activebackground=ns_blauw, activeforeground=tekst_kleur, command=lambda: button_pressed(),
+                           state='disabled')
         begin_station = Label(self, text="Kies uw beginstation", background=ns_geel, font=('Arial', 20))
 
         begin_station.pack()
-        optionmenu.place(x=100, y = 100)
+        optionmenu.place(x=100, y=100)
         optionmenu.pack()
-        button.place(x=130, y = 300)
+        button.place(x=130, y=300)
         button.pack()
 
 
-class eindstationFrame(tk.Frame):
-
+class Eindstationframe(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent, background=ns_geel)
+
         def option_changed(a):
-            global eindstation,beginstation
+            global eindstation, beginstation
             eindstation = sv.get()
-            print(a,beginstation)
+            print(a, beginstation)
             if a != beginstation:
                 button.config(state="normal")
             else:
                 button.config(state="disabled")
 
         def save_and_show_voltooid():
-            save_reisgegevens(beginstation,eindstation)
-            controller.show_frame(voltooidFrame)
-        def save_reisgegevens(beginstation,eindstation):
+            save_reisgegevens(beginstation, eindstation)
+            controller.show_frame(Voltooidframe)
+
+        def save_reisgegevens(beginstation, eindstation):
             global ovnummer
-            beginstationID = database.fetchOne(database.query("SELECT stationID FROM stations WHERE naam=\'%s\'" % beginstation))
-            eindstationID = database.fetchOne(database.query("SELECT stationID FROM stations WHERE naam=\'%s\'" % eindstation))
-            gebruikerID = database.fetchOne(database.query("SELECT gebruikerID FROM gebruikers WHERE ovnummer=%d" % ovnummer))
-            print(beginstation,eindstation,beginstationID,eindstationID,gebruikerID)
-            database.query("INSERT INTO reisgegevens(gebruikerID,beginstationID,eindstationID) VALUES ({0},{1},{2})".format(gebruikerID[0], beginstationID[0], eindstationID[0]))
+            beginstationID = database.fetchOne(
+                database.query("SELECT stationID FROM stations WHERE naam=\'%s\'" % beginstation))
+            eindstationID = database.fetchOne(
+                database.query("SELECT stationID FROM stations WHERE naam=\'%s\'" % eindstation))
+            gebruikerID = database.fetchOne(
+                database.query("SELECT gebruikerID FROM gebruikers WHERE ovnummer=%d" % ovnummer))
+            print(beginstation, eindstation, beginstationID, eindstationID, gebruikerID)
+            database.query(
+                "INSERT INTO reisgegevens(gebruikerID,beginstationID,eindstationID) VALUES ({0},{1},{2})".format(
+                    gebruikerID[0], beginstationID[0], eindstationID[0]))
             database.save()
+
         sv = StringVar(self)
         sv.set('Eindstation')
         station_lijst = genereer_stationlijst()
@@ -186,24 +185,19 @@ class eindstationFrame(tk.Frame):
             sv.set('Eindstation')
             button.config(state='disabled')
 
-        def button_pressed1():
-            controller.show_frame(beginstationFrame)
-
-        button = tk.Button(self, text ="Volgende", bd = 5, width = 50, height = 4, background=ns_blauw, fg=tekst_kleur, activebackground=ns_blauw, activeforeground=tekst_kleur, command = button_pressed, state = 'disabled')
-        button2 = tk.Button(self, text="Vorige", bd = 5, width = 50, height = 4, background=ns_blauw, fg=tekst_kleur, activebackground=ns_blauw, activeforeground=tekst_kleur, command= button_pressed1, state = 'normal')
+        button = tk.Button(self, text="Volgende", bd=5, width=50, height=4, background=ns_blauw, fg=tekst_kleur,
+                           activebackground=ns_blauw, activeforeground=tekst_kleur, command=button_pressed,
+                           state='disabled')
         eind_station = Label(self, text="Kies uw eindstation", background=ns_geel, font=('Arial', 20))
 
         eind_station.pack()
-        optionmenu.place(x = 100, y = 100)
+        optionmenu.place(x=100, y=100)
         optionmenu.pack()
-        button2.pack()
-        button.place(x=80, y=300)
-        button.place(x = 160, y = 300)
+        button.place(x=130, y=300)
         button.pack()
 
 
-class voltooidFrame(tk.Frame):
-
+class Voltooidframe(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent, bg=ns_geel)
 
@@ -211,24 +205,23 @@ class voltooidFrame(tk.Frame):
         opgeslagen.pack()
         opgeslagen.place(x=170, y=150)
 
-        #qr code genereren
+        # qr code genereren
         def generate_and_show_qr_code():
-            img = qrcode.make(database.fetchOne(database.query("SELECT reisID FROM reisgegevens ORDER BY reisID desc"))[0])
+            img = qrcode.make(
+                database.fetchOne(database.query("SELECT reisID FROM reisgegevens ORDER BY reisID desc"))[0])
             img.show()
 
-        button = tk.Button(self, text ="Bekijk qr code", bd = 5, width = 50, height = 4, background=ns_blauw, fg=tekst_kleur, activebackground=ns_blauw, activeforeground=tekst_kleur, command = generate_and_show_qr_code)
-        button2 = tk.Button(self, text='Terug naar beginscherm', bd = 5, width = 50, height = 4, background=ns_blauw, fg=tekst_kleur, activebackground=ns_blauw, activeforeground=tekst_kleur, command= lambda: controller.show_frame(loginFrame))
-        button2.place(x = 130, y = 350)
+        button = tk.Button(self, text="Bekijk qr code", bd=5, width=50, height=4, background=ns_blauw, fg=tekst_kleur,
+                           activebackground=ns_blauw, activeforeground=tekst_kleur, command=generate_and_show_qr_code)
+        button2 = tk.Button(self, text='Terug naar beginscherm', bd=5, width=50, height=4, background=ns_blauw,
+                            fg=tekst_kleur, activebackground=ns_blauw, activeforeground=tekst_kleur,
+                            command=lambda: controller.show_frame(Loginframe))
+        button2.place(x=130, y=350)
         button2.pack()
-        button.place(x = 130, y = 300)
+        button.place(x=130, y=300)
         button.pack()
 
-        # w = Label(self, image=img, font=('Arial', 20))
-        # w.pack()
-        # w.place(x=170, y=150)
-
-
-app = reisDatabase()
+app = Reisdatabase()
 app.geometry('600x400')
 app.title('Ns overzicht')
 app.mainloop()
