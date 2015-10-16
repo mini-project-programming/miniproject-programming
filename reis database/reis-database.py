@@ -88,6 +88,7 @@ class loginFrame(tk.Frame):
         def button_pressed():
             controller.show_frame(beginstationFrame)
             input_ovnummer.delete(0,END)
+            button.config(state='disabled')
 
 
         button = tk.Button(self, text="Volgende", bd=5, width=50, height=4, background="#010066", fg=tekst_kleur, activebackground=ns_blauw, activeforeground=tekst_kleur, command=lambda: button_pressed(), state='disabled')
@@ -137,6 +138,7 @@ class beginstationFrame(tk.Frame):
         def button_pressed():
             controller.show_frame(eindstationFrame)
             sv.set('Beginstation')
+            button.config(state='disabled')
 
         button = tk.Button(self, text ="Volgende", bd = 5, width = 50, height = 4, background=ns_blauw, fg="white", activebackground=ns_blauw, activeforeground=tekst_kleur, command = lambda: button_pressed(), state = 'disabled')
         begin_station = Label(self, text="Kies uw beginstation", background=ns_geel, font=('Arial', 20))
@@ -182,6 +184,7 @@ class eindstationFrame(tk.Frame):
         def button_pressed():
             save_and_show_voltooid()
             sv.set('Eindstation')
+            button.config(state='disabled')
 
         button = tk.Button(self, text ="Volgende", bd = 5, width = 50, height = 4, background=ns_blauw, fg=tekst_kleur, activebackground=ns_blauw, activeforeground=tekst_kleur, command = button_pressed, state = 'disabled')
         eind_station = Label(self, text="Kies uw eindstation", background=ns_geel, font=('Arial', 20))
