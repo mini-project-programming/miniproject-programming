@@ -23,7 +23,6 @@ def genereer_stationlijst():
 
     return stationlijst
 
-
 def genereer_ovnummerlijst():
     ovnummerlijst = []
 
@@ -192,7 +191,7 @@ class voltooidFrame(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
 
-        w = Label(self, text="Uw reisgegevens is opgeslagen!", font=('Arial', 20))
+        w = Label(self, text="Uw reisgegevens zijn opgeslagen!", font=('Arial', 20))
         w.pack()
         w.place(x=170, y=150)
 
