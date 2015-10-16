@@ -184,14 +184,16 @@ class Eindstationframe(tk.Frame):
             save_and_show_voltooid()
             sv.set('Eindstation')
             button.config(state='disabled')
+
         def button_pressed1():
             controller.show_frame(Beginstationframe)
 
         button = tk.Button(self, text="Volgende", bd=5, width=50, height=4, background=ns_blauw, fg=tekst_kleur,
                            activebackground=ns_blauw, activeforeground=tekst_kleur, command=button_pressed,
                            state='disabled')
-        button2 = tk.Button(self, text="Vorige", bd = 5, width = 50, height = 4, background=ns_blauw, fg=tekst_kleur,
-                            activebackground=ns_blauw, activeforeground=tekst_kleur, command= button_pressed1, state = 'normal')
+        button2 = tk.Button(self, text="Vorige", bd=5, width=50, height=4, background=ns_blauw, fg=tekst_kleur,
+                            activebackground=ns_blauw, activeforeground=tekst_kleur, command=button_pressed1,
+                            state='normal')
 
         eind_station = Label(self, text="Kies uw eindstation", background=ns_geel, font=('Arial', 20))
 
@@ -200,7 +202,6 @@ class Eindstationframe(tk.Frame):
         optionmenu.pack()
         button2.pack()
         button.pack()
-        button = tk.Button(self, text ="Volgende", bd = 5, width = 50, height = 4, background=ns_blauw, fg=tekst_kleur, activebackground=ns_blauw, activeforeground=tekst_kleur, command = button_pressed, state = 'disabled')
 
 
 class Voltooidframe(tk.Frame):
@@ -223,9 +224,10 @@ class Voltooidframe(tk.Frame):
                             fg=tekst_kleur, activebackground=ns_blauw, activeforeground=tekst_kleur,
                             command=lambda: controller.show_frame(Loginframe))
         button2.place(x=130, y=350)
-        button.place(x = 130, y = 300)
+        button.place(x=130, y=300)
         button.place(x=130, y=300)
         button.pack()
+
 
 app = Reisdatabase()
 app.geometry('600x400')
