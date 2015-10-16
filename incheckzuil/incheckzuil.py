@@ -1,12 +1,19 @@
 __author__ = 'Merlijn, Ismael'
 
 import tkinter
-from database import *
 from tkinter import messagebox
+
+from database import *
+
 
 window = tkinter.Tk()
 window.geometry("850x500")
 window.title("Incheckzuil")
+
+# kleuren
+ns_geel = "#FFCC33"
+ns_blauw = "#010066"
+tekst_kleur = "white"
 
 
 def haal_gebruiker_id(ovnummer):
@@ -39,12 +46,12 @@ def start_printen(nummer):
     try:
         int(nummer)
     except ValueError:
-        messagebox.showinfo("Error","Voer een ovnummer in")
+        messagebox.showinfo("Error", "Voer een ovnummer in")
         return
-    if(len(ent_uitvoer_vak.get("1.0","end")) > 0):
-        ent_uitvoer_vak.delete("1.0","end")
-    if(str(haal_gebruiker_id(nummer)) == "None"):
-        messagebox.showinfo("Error","De opgegeven ovnummer is niet gevonden in de database")
+    if len(ent_uitvoer_vak.get("1.0", "end")) > 0:
+        ent_uitvoer_vak.delete("1.0", "end")
+    if str(haal_gebruiker_id(nummer)) == "None":
+        messagebox.showinfo("Error", "Het opgegeven ovnummer is niet gevonden in de database.")
         return
 
     stations = haal_station_gegevens()
@@ -55,13 +62,17 @@ def start_printen(nummer):
         begin_station = stations[row[2]]
         eind_station = stations[row[3]]
 
-        uitvoer_regel = "Reis ID: {0:3s} Beginstation: {1:25s} Eindstation: {2:25s} \n".format(str(reis_id), str(begin_station), str(eind_station))
+        uitvoer_regel = "Reis ID: {0:3s} Beginstation: {1:25s} Eindstation: {2:25s} \n".format(str(reis_id),
+                                                                                               str(begin_station),
+                                                                                               str(eind_station))
         ent_uitvoer_vak.insert("end", uitvoer_regel)
 
 
-lbl_ov_nummer = tkinter.Label(window, text="Voer uw ov nummer in:")
+lbl_ov_nummer = tkinter.Label(window, bg=ns_geel, text="Voer uw ov nummer in:")
 ent_ov_nummer = tkinter.Entry(window)
-btn_start = tkinter.Button(window, text="Haal reisgegevens op", state="normal", command=lambda: start_printen(ent_ov_nummer.get()))
+btn_start = tkinter.Button(window, text="Haal reisgegevens op", state="normal", bg=ns_blauw, fg=tekst_kleur,
+                           activebackground=ns_blauw, activeforeground=tekst_kleur,
+                           command=lambda: start_printen(ent_ov_nummer.get()))
 ent_uitvoer_vak = tkinter.Text(window, width=100)
 
 lbl_ov_nummer.grid(row=0, column=0)
@@ -71,4 +82,5 @@ ent_uitvoer_vak.grid(row=1, columnspan=16)
 
 ov_nummer = ent_ov_nummer.get()
 
+window.config(background=ns_geel)
 window.mainloop()
