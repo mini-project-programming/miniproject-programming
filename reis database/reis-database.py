@@ -193,7 +193,7 @@ class voltooidFrame(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
 
-        opgeslagen = Label(self, text="Uw reisgegevens is opgeslagen!", font=('Arial', 20))
+        opgeslagen = Label(self, text="Uw reisgegevens zijn opgeslagen!", font=('Arial', 20))
         opgeslagen.pack()
         opgeslagen.place(x=170, y=150)
 
