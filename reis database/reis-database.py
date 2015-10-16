@@ -221,11 +221,6 @@ class Voltooidframe(tk.Frame):
         button.place(x=130, y=300)
         button.pack()
 
-        # w = Label(self, image=img, font=('Arial', 20))
-        # w.pack()
-        # w.place(x=170, y=150)
-
-
 app = Reisdatabase()
 app.geometry('600x400')
 app.title('Ns overzicht')
