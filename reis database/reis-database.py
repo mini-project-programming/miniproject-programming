@@ -223,4 +223,3 @@ app = reisDatabase()
 app.geometry('600x400')
 app.title('Ns overzicht')
 app.mainloop()
- 
