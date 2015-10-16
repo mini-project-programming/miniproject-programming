@@ -1,5 +1,5 @@
 ## miniproject-programming
-Hier zit alles in (ook database)
+Check in at NS
 
 ## Installation
 Install python 3.4 and the packages and run each application separately (incheckzuil.py,overzicht.py,reis-database.py)
