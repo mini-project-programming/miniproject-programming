@@ -36,4 +36,7 @@ class sqllite_database:
     def save(self):
         self.connection.commit()
 
+    def close(self):
+        self.connection.close()
+
 database = sqllite_database()
