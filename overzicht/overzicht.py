@@ -5,8 +5,9 @@ from database import *
 
 def save_to_file(bestand):
     datum = datetime.date.today()
+    tijd = datetime.datetime.today().time().strftime('%H-%M-%S')
 
-    with open("Rapport " + str(datum) + ".txt", "w") as text_file:
+    with open("Rapport " + str(datum) + " " + str(tijd) + ".txt", "w") as text_file:
         for row in bestand:
             text_file.write(row)
 
