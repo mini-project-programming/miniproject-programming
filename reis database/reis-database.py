@@ -210,7 +210,7 @@ class Voltooidframe(tk.Frame):
 
         opgeslagen = Label(self, text="Uw reisgegevens zijn opgeslagen!", background=ns_geel, font=('Arial', 20))
         opgeslagen.pack()
-        opgeslagen.place(x=170, y=150)
+        opgeslagen.place(x=80, y=100)
 
         # qr code genereren
         def generate_and_show_qr_code():
@@ -223,11 +223,10 @@ class Voltooidframe(tk.Frame):
         button2 = tk.Button(self, text='Terug naar beginscherm', bd=5, width=50, height=4, background=ns_blauw,
                             fg=tekst_kleur, activebackground=ns_blauw, activeforeground=tekst_kleur,
                             command=lambda: controller.show_frame(Loginframe))
-        button2.place(x=130, y=350)
-        button.place(x=130, y=300)
-        button.place(x=130, y=300)
         button.pack()
-
+        button.place(x = 80, y = 150)
+        button2.pack
+        button2.place(x = 80, y = 250)
 
 app = Reisdatabase()
 app.geometry('600x400')
