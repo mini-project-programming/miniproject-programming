@@ -23,7 +23,6 @@ def genereer_stationlijst():
 
     return stationlijst
 
-
 def genereer_ovnummerlijst():
     ovnummerlijst = []
 
@@ -69,47 +68,46 @@ class reisDatabase(tk.Tk):
 class loginFrame(tk.Frame):
 
     def __init__(self, parent, controller):
-
         tk.Frame.__init__(self, parent)
 
         ovnummer_lijst = genereer_ovnummerlijst()
 
-        titel = Label(self, text="Welkom bij NS reis-database", font=('Arial', 20))
+        T = Label(self, text="Welkom bij NS reis-database", font=('Arial', 20))
 
         sv = tk.StringVar()
         sv.trace("w", lambda name, index, mode, sv=sv: callback(sv))
 
-        ovnum = tk.Label(self, text="OV-nummer (8 cijfers)")
-        input = tk.Entry(self, textvariable=sv)
+        E1 = tk.Label(self, text="OV-nummer (8 cijfers)")
+        E2 = tk.Entry(self, textvariable=sv)
 
         def button_pressed():
             controller.show_frame(beginstationFrame)
-            input.delete(0,END)
+            E2.delete(0,END)
 
 
-        button = tk.Button(self, text ="Volgende", bd = 5, width = 50, height = 4, command = lambda: button_pressed(), state = 'disabled')
+        B = tk.Button(self, text ="Volgende", bd = 5, width = 50, height = 4, command = lambda: button_pressed(), state = 'disabled')
 
         def callback(sv):
             global ovnummer
             try:
-                if int(input.get()) in ovnummer_lijst:
+                if int(E2.get()) in ovnummer_lijst:
                     print('Correct')
-                    button.config(state = 'normal')
-                    ovnummer = int(input.get())
+                    B.config(state = 'normal')
+                    ovnummer = int(E2.get())
                 else:
-                    button.config(state = 'disabled')
+                    B.config(state = 'disabled')
             except:
                 print('Empty')
 
 
-        titel.pack()
-        ovnum.pack()
-        input.pack()
-        button.pack()
-        titel.place(x = 140)
-        ovnum.place(x = 180, y = 200)
-        input.place(x = 310, y = 200)
-        button.place(x = 130, y = 300)
+        T.pack()
+        E1.pack()
+        E2.pack()
+        B.pack()
+        T.place(x = 140)
+        E1.place(x = 180, y = 200)
+        E2.place(x = 310, y = 200)
+        B.place(x = 130, y = 300)
 
 
 class beginstationFrame(tk.Frame):
@@ -121,27 +119,27 @@ class beginstationFrame(tk.Frame):
 
         def option_changed(a):
             global beginstation
-            print(sv)
-            beginstation = sv.get()
-            button.config(state='normal')
+            print(variable)
+            beginstation = variable.get()
+            B.config(state='normal')
 
-        sv = StringVar(self)
-        sv.set('Beginstation')
+        variable = StringVar(self)
+        variable.set('Beginstation')
 
-        optionmenu = OptionMenu(self, sv, *station_lijst, command=option_changed)
+        om1 = OptionMenu(self, variable, *station_lijst, command=option_changed)
 
         def button_pressed():
             controller.show_frame(eindstationFrame)
-            sv.set('Beginstation')
+            variable.set('Beginstation')
 
-        button = tk.Button(self, text ="Volgende", bd = 5, width = 50, height = 4, command = lambda: button_pressed(), state = 'disabled')
-        input_station = Label(self, text="Kies uw beginstation", font=('Arial', 20))
+        B = tk.Button(self, text ="Volgende", bd = 5, width = 50, height = 4, command = lambda: button_pressed(), state = 'disabled')
+        w = Label(self, text="Kies uw beginstation", font=('Arial', 20))
 
-        input_station.pack()
-        optionmenu.place(x = 100, y = 100)
-        optionmenu.pack()
-        button.place(x = 130, y = 300)
-        button.pack()
+        w.pack()
+        om1.place(x = 100, y = 100)
+        om1.pack()
+        B.place(x = 130, y = 300)
+        B.pack()
 
 
 class eindstationFrame(tk.Frame):
@@ -153,9 +151,9 @@ class eindstationFrame(tk.Frame):
             eindstation = variable.get()
             print(a,beginstation)
             if a != beginstation:
-                button.config(state="normal")
+                B.config(state="normal")
             else:
-                button.config(state="disabled")
+                B.config(state="disabled")
 
         def save_and_show_voltooid():
             save_reisgegevens(beginstation,eindstation)
@@ -172,20 +170,20 @@ class eindstationFrame(tk.Frame):
         variable.set('Eindstation')
         station_lijst = genereer_stationlijst()
 
-        optionmenu = OptionMenu(self, variable, *station_lijst, command=option_changed)
+        om1 = OptionMenu(self, variable, *station_lijst, command=option_changed)
 
         def button_pressed():
             save_and_show_voltooid()
             variable.set('Eindstation')
 
-        button = tk.Button(self, text ="Volgende", bd = 5, width = 50, height = 4, command = button_pressed, state = 'disabled')
-        input_eindstation = Label(self, text="Kies uw eindstation", font=('Arial', 20))
+        B = tk.Button(self, text ="Volgende", bd = 5, width = 50, height = 4, command = button_pressed, state = 'disabled')
+        w = Label(self, text="Kies uw eindstation", font=('Arial', 20))
 
-        input_eindstation.pack()
-        optionmenu.place(x = 100, y = 100)
-        optionmenu.pack()
-        button.place(x = 130, y = 300)
-        button.pack()
+        w.pack()
+        om1.place(x = 100, y = 100)
+        om1.pack()
+        B.place(x = 130, y = 300)
+        B.pack()
 
 
 class voltooidFrame(tk.Frame):
@@ -193,21 +191,21 @@ class voltooidFrame(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
 
-        opgeslagen = Label(self, text="Uw reisgegevens is opgeslagen!", font=('Arial', 20))
-        opgeslagen.pack()
-        opgeslagen.place(x=170, y=150)
+        w = Label(self, text="Uw reisgegevens zijn opgeslagen!", font=('Arial', 20))
+        w.pack()
+        w.place(x=170, y=150)
 
         #qr code genereren
         def generate_and_show_qr_code():
             img = qrcode.make(database.fetchOne(database.query("SELECT reisID FROM reisgegevens ORDER BY reisID desc"))[0])
             img.show()
 
-        button = tk.Button(self, text ="Bekijk qr code", bd = 5, width = 50, height = 4, command = generate_and_show_qr_code)
-        button2 = tk.Button(self, text='Terug naar beginscherm', bd = 5, width = 50, height = 4, command= lambda: controller.show_frame(loginFrame))
-        button2.place(x = 130, y = 350)
-        button2.pack()
-        button.place(x = 130, y = 300)
-        button.pack()
+        B = tk.Button(self, text ="Bekijk qr code", bd = 5, width = 50, height = 4, command = generate_and_show_qr_code)
+        B2 = tk.Button(self, text='Terug naar beginscherm', bd = 5, width = 50, height = 4, command= lambda: controller.show_frame(loginFrame))
+        B2.place(x = 130, y = 350)
+        B2.pack()
+        B.place(x = 130, y = 300)
+        B.pack()
 
         # w = Label(self, image=img, font=('Arial', 20))
         # w.pack()
