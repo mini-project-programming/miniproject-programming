@@ -11,6 +11,11 @@ eindstation = ""
 ovnummer = 0
 
 
+# kleuren
+ns_geel = "#FFCC33"
+ns_blauw = "#010066"
+tekst_kleur = "white"
+
 def genereer_stationlijst():
     stationlijst = []
 
@@ -68,16 +73,16 @@ class reisDatabase(tk.Tk):
 class loginFrame(tk.Frame):
 
     def __init__(self, parent, controller):
-        tk.Frame.__init__(self, parent)
+        tk.Frame.__init__(self, parent, background=ns_geel)
 
         ovnummer_lijst = genereer_ovnummerlijst()
 
-        T = Label(self, text="Welkom bij NS reis-database", font=('Arial', 20))
+        T = Label(self, text="Welkom bij NS reis-database", background=ns_geel, font=('Arial', 20))
 
         sv = tk.StringVar()
         sv.trace("w", lambda name, index, mode, sv=sv: callback(sv))
 
-        E1 = tk.Label(self, text="OV-nummer (8 cijfers)")
+        E1 = tk.Label(self, background=ns_geel, text="OV-nummer (8 cijfers)")
         E2 = tk.Entry(self, textvariable=sv)
 
         def button_pressed():
@@ -85,7 +90,7 @@ class loginFrame(tk.Frame):
             E2.delete(0,END)
 
 
-        B = tk.Button(self, text ="Volgende", bd = 5, width = 50, height = 4, command = lambda: button_pressed(), state = 'disabled')
+        B = tk.Button(self, text="Volgende", bd=5, width=50, height=4, background="#010066", fg=tekst_kleur, activebackground=ns_blauw, activeforeground=tekst_kleur, command=lambda: button_pressed(), state='disabled')
 
         def callback(sv):
             global ovnummer
@@ -113,7 +118,7 @@ class loginFrame(tk.Frame):
 class beginstationFrame(tk.Frame):
 
     def __init__(self, parent, controller):
-        tk.Frame.__init__(self, parent)
+        tk.Frame.__init__(self, parent, background=ns_geel)
 
         station_lijst = genereer_stationlijst()
 
@@ -127,25 +132,26 @@ class beginstationFrame(tk.Frame):
         variable.set('Beginstation')
 
         om1 = OptionMenu(self, variable, *station_lijst, command=option_changed)
+        om1.config(bg=ns_blauw, fg=tekst_kleur, activebackground=ns_blauw, activeforeground=tekst_kleur)
 
         def button_pressed():
             controller.show_frame(eindstationFrame)
             variable.set('Beginstation')
 
-        B = tk.Button(self, text ="Volgende", bd = 5, width = 50, height = 4, command = lambda: button_pressed(), state = 'disabled')
-        w = Label(self, text="Kies uw beginstation", font=('Arial', 20))
+        B = tk.Button(self, text ="Volgende", bd = 5, width = 50, height = 4, background=ns_blauw, fg="white", activebackground=ns_blauw, activeforeground=tekst_kleur, command = lambda: button_pressed(), state = 'disabled')
+        w = Label(self, text="Kies uw beginstation", background=ns_geel, font=('Arial', 20))
 
         w.pack()
-        om1.place(x = 100, y = 100)
+        om1.place(x=100, y = 100)
         om1.pack()
-        B.place(x = 130, y = 300)
+        B.place(x=130, y = 300)
         B.pack()
 
 
 class eindstationFrame(tk.Frame):
 
     def __init__(self, parent, controller):
-        tk.Frame.__init__(self, parent)
+        tk.Frame.__init__(self, parent, background=ns_geel)
         def option_changed(a):
             global eindstation,beginstation
             eindstation = variable.get()
@@ -171,13 +177,14 @@ class eindstationFrame(tk.Frame):
         station_lijst = genereer_stationlijst()
 
         om1 = OptionMenu(self, variable, *station_lijst, command=option_changed)
+        om1.config(bg=ns_blauw, fg=tekst_kleur, activebackground=ns_blauw, activeforeground=tekst_kleur)
 
         def button_pressed():
             save_and_show_voltooid()
             variable.set('Eindstation')
 
-        B = tk.Button(self, text ="Volgende", bd = 5, width = 50, height = 4, command = button_pressed, state = 'disabled')
-        w = Label(self, text="Kies uw eindstation", font=('Arial', 20))
+        B = tk.Button(self, text ="Volgende", bd = 5, width = 50, height = 4, background=ns_blauw, fg=tekst_kleur, activebackground=ns_blauw, activeforeground=tekst_kleur, command = button_pressed, state = 'disabled')
+        w = Label(self, text="Kies uw eindstation", background=ns_geel, font=('Arial', 20))
 
         w.pack()
         om1.place(x = 100, y = 100)
@@ -189,9 +196,9 @@ class eindstationFrame(tk.Frame):
 class voltooidFrame(tk.Frame):
 
     def __init__(self, parent, controller):
-        tk.Frame.__init__(self, parent)
+        tk.Frame.__init__(self, parent, bg=ns_geel)
 
-        w = Label(self, text="Uw reisgegevens zijn opgeslagen!", font=('Arial', 20))
+        w = Label(self, text="Uw reisgegevens zijn opgeslagen!", background=ns_geel, font=('Arial', 20))
         w.pack()
         w.place(x=170, y=150)
 
@@ -200,8 +207,8 @@ class voltooidFrame(tk.Frame):
             img = qrcode.make(database.fetchOne(database.query("SELECT reisID FROM reisgegevens ORDER BY reisID desc"))[0])
             img.show()
 
-        B = tk.Button(self, text ="Bekijk qr code", bd = 5, width = 50, height = 4, command = generate_and_show_qr_code)
-        B2 = tk.Button(self, text='Terug naar beginscherm', bd = 5, width = 50, height = 4, command= lambda: controller.show_frame(loginFrame))
+        B = tk.Button(self, text ="Bekijk qr code", bd = 5, width = 50, height = 4, background=ns_blauw, fg=tekst_kleur, activebackground=ns_blauw, activeforeground=tekst_kleur, command = generate_and_show_qr_code)
+        B2 = tk.Button(self, text='Terug naar beginscherm', bd = 5, width = 50, height = 4, background=ns_blauw, fg=tekst_kleur, activebackground=ns_blauw, activeforeground=tekst_kleur, command= lambda: controller.show_frame(loginFrame))
         B2.place(x = 130, y = 350)
         B2.pack()
         B.place(x = 130, y = 300)
